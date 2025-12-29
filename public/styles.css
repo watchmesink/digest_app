@@ -3,26 +3,23 @@
   --color-primary-dark: #042e1e;
   --color-primary-light: #0a5c3e;
   --color-accent: #7fffd4;
-  --color-bg: #fafaf8;
+  --color-bg: #f6f6ef;
   --color-bg-alt: #f0efe9;
-  --color-text: #1a1a1a;
-  --color-text-muted: #666;
-  --color-text-light: #888;
-  --color-link: #06402B;
-  --color-link-visited: #5a4a3a;
+  --color-text: #000000;
+  --color-text-muted: #828282;
+  --color-text-light: #828282;
+  --color-link: #000000;
+  --color-link-visited: #828282;
   --color-border: #e0dfd8;
   
-  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
-  --font-serif: 'Newsreader', Georgia, serif;
+  --font-main: Verdana, Geneva, sans-serif;
+  --font-mono: 'Courier New', Courier, monospace;
   
-  --space-xs: 4px;
-  --space-sm: 8px;
-  --space-md: 16px;
-  --space-lg: 24px;
-  --space-xl: 32px;
-  
-  --radius-sm: 3px;
-  --radius-md: 6px;
+  --space-xs: 2px;
+  --space-sm: 4px;
+  --space-md: 8px;
+  --space-lg: 12px;
+  --space-xl: 16px;
 }
 
 * {
@@ -32,15 +29,15 @@
 }
 
 html {
-  font-size: 15px;
+  font-size: 10pt;
   -webkit-font-smoothing: antialiased;
 }
 
 body {
-  font-family: var(--font-serif);
+  font-family: var(--font-main);
   background: var(--color-bg);
   color: var(--color-text);
-  line-height: 1.5;
+  line-height: 1.4;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -62,11 +59,11 @@ a:visited {
 /* Header */
 .header {
   background: var(--color-primary);
-  padding: var(--space-sm) var(--space-md);
+  padding: 2px 5px;
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: none;
 }
 
 .header-content {
@@ -89,9 +86,9 @@ a:visited {
   align-items: center;
   gap: var(--space-sm);
   color: white;
-  font-family: var(--font-mono);
-  font-weight: 600;
-  font-size: 1.1rem;
+  font-family: var(--font-main);
+  font-weight: bold;
+  font-size: 10pt;
   text-decoration: none;
 }
 
@@ -130,12 +127,11 @@ a:visited {
 }
 
 .nav-link {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-family: var(--font-main);
+  font-size: 10pt;
   color: white;
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: var(--radius-sm);
-  transition: all 0.15s ease;
+  padding: 0 3px;
+  text-decoration: none;
   text-transform: lowercase;
 }
 
@@ -152,17 +148,18 @@ a:visited {
 .nav-link.active {
   color: var(--color-primary);
   background: var(--color-accent);
-  font-weight: 500;
+  font-weight: bold;
 }
 
 /* Main Content */
 .main {
   flex: 1;
-  padding: var(--space-lg) var(--space-md);
+  padding: 5px 0 8px 0;
 }
 
 .container {
-  max-width: 1000px;
+  width: 85%;
+  max-width: 900px;
   margin: 0 auto;
 }
 
@@ -171,12 +168,11 @@ a:visited {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-sm) 0;
-  border-bottom: 1px solid var(--color-border);
-  margin-bottom: var(--space-md);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--color-text-light);
+  padding: 4px 0;
+  margin-bottom: 4px;
+  font-family: var(--font-main);
+  font-size: 10pt;
+  color: var(--color-text-muted);
 }
 
 /* Loading State */
@@ -184,11 +180,11 @@ a:visited {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-md);
-  padding: var(--space-xl);
+  gap: 8px;
+  padding: 16px;
   color: var(--color-text-muted);
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-family: var(--font-main);
+  font-size: 10pt;
 }
 
 .loading-spinner {
@@ -210,9 +206,9 @@ a:visited {
 }
 
 .feed-item {
-  padding: var(--space-lg) 0;
-  border-bottom: 2px solid var(--color-border);
-  animation: fadeIn 0.3s ease;
+  padding: 30px 0 20px 0;
+  border-bottom: none;
+  animation: none;
 }
 
 @keyframes fadeIn {
@@ -226,28 +222,27 @@ a:visited {
   }
 }
 
-.feed-item:last-child {
-  border-bottom: 2px solid var(--color-border);
-}
 
 
 .item-content {
   min-width: 0;
+  font-family: var(--font-main);
 }
 
 .item-title {
-  font-size: 1rem;
-  font-weight: 500;
+  font-family: var(--font-main);
+  font-size: 12pt;
+  font-weight: normal;
   line-height: 1.4;
-  margin-bottom: var(--space-xs);
+  margin-bottom: 2px;
 }
 
 .item-title a {
-  color: var(--color-text);
+  color: var(--color-link);
 }
 
 .item-title a:visited {
-  color: var(--color-text-muted);
+  color: var(--color-link-visited);
 }
 
 .item-title a:hover {
@@ -255,17 +250,18 @@ a:visited {
 }
 
 .item-domain {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--color-text-light);
-  margin-left: var(--space-sm);
+  font-family: var(--font-main);
+  font-size: 8pt;
+  color: var(--color-text-muted);
+  margin-left: 4px;
 }
 
 .item-summary {
-  font-size: 0.9rem;
-  color: var(--color-text-muted);
-  line-height: 1.5;
-  margin-bottom: var(--space-sm);
+  font-family: var(--font-main);
+  font-size: 9pt;
+  color: var(--color-text);
+  line-height: 1.4;
+  margin: 2px 0 4px 0;
   max-width: 700px;
 }
 
@@ -275,19 +271,20 @@ a:visited {
 }
 
 .telegram-expanded {
-  margin-top: var(--space-sm);
+  margin-top: 4px;
 }
 
 .telegram-full-text {
-  font-size: 0.9rem;
+  font-family: var(--font-main);
+  font-size: 9pt;
   color: var(--color-text);
-  line-height: 1.6;
+  line-height: 1.4;
   word-wrap: break-word;
-  margin-bottom: var(--space-md);
+  margin-bottom: 8px;
 }
 
 .telegram-full-text p {
-  margin: 0 0 var(--space-sm) 0;
+  margin: 0 0 4px 0;
 }
 
 .telegram-full-text p:last-child {
@@ -319,39 +316,37 @@ a:visited {
 
 .telegram-full-text pre {
   background: var(--color-bg-alt);
-  padding: var(--space-sm);
-  border-radius: var(--radius-sm);
+  padding: 4px;
   overflow-x: auto;
-  margin: var(--space-sm) 0;
+  margin: 4px 0;
 }
 
 .telegram-full-text blockquote {
   border-left: 3px solid var(--color-border);
-  padding-left: var(--space-sm);
-  margin: var(--space-sm) 0;
+  padding-left: 4px;
+  margin: 4px 0;
   color: var(--color-text-muted);
 }
 
 .telegram-full-text ul,
 .telegram-full-text ol {
-  margin: var(--space-sm) 0;
-  padding-left: var(--space-lg);
+  margin: 4px 0;
+  padding-left: 20px;
 }
 
 .telegram-full-text li {
-  margin: var(--space-xs) 0;
+  margin: 2px 0;
 }
 
 .telegram-images {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-sm);
-  margin-top: var(--space-md);
+  gap: 4px;
+  margin-top: 8px;
 }
 
 .telegram-images a {
   display: inline-block;
-  border-radius: var(--radius-md);
   overflow: hidden;
   transition: transform 0.2s ease;
   line-height: 0;
@@ -364,7 +359,6 @@ a:visited {
 .telegram-image {
   max-width: 100%;
   height: auto;
-  border-radius: var(--radius-md);
   cursor: pointer;
   display: block;
   /* Use original size, don't force dimensions */
@@ -376,10 +370,11 @@ a:visited {
 .item-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-sm);
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--color-text-light);
+  gap: 4px;
+  font-family: var(--font-main);
+  font-size: 8pt;
+  color: var(--color-text-muted);
+  margin-top: 2px;
 }
 
 .item-meta span {
@@ -389,10 +384,9 @@ a:visited {
 }
 
 .meta-source {
-  background: var(--color-bg-alt);
-  padding: 2px 6px;
-  border-radius: var(--radius-sm);
-  font-weight: 500;
+  background: transparent;
+  padding: 0;
+  font-weight: normal;
 }
 
 .meta-source.source-hackernews { color: #ff6600; }
@@ -405,21 +399,21 @@ a:visited {
 /* Empty State */
 .feed-empty {
   text-align: center;
-  padding: var(--space-xl);
+  padding: 16px;
   color: var(--color-text-muted);
-  font-family: var(--font-mono);
-  font-size: 0.9rem;
+  font-family: var(--font-main);
+  font-size: 10pt;
 }
 
 /* Footer */
 .footer {
-  background: var(--color-bg-alt);
+  background: var(--color-bg);
   border-top: 1px solid var(--color-border);
-  padding: var(--space-md);
+  padding: 8px;
   text-align: center;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--color-text-light);
+  font-family: var(--font-main);
+  font-size: 9pt;
+  color: var(--color-text-muted);
 }
 
 /* Responsive */
@@ -458,14 +452,14 @@ a:visited {
 
 /* Dark mode */
 body.dark-theme {
-  --color-bg: #0f0f0f;
-  --color-bg-alt: #1a1a1a;
+  --color-bg: #1a1a1a;
+  --color-bg-alt: #2a2a2a;
   --color-text: #e8e8e8;
-  --color-text-muted: #a0a0a0;
-  --color-text-light: #666;
+  --color-text-muted: #888;
+  --color-text-light: #888;
   --color-link: #7fffd4;
   --color-link-visited: #9ecfbe;
-  --color-border: #2a2a2a;
+  --color-border: #3a3a3a;
 }
 
 body.dark-theme .item-title a {
