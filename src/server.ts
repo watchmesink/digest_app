@@ -27,6 +27,9 @@ app.get('/api/feed', (req, res) => {
     if (validSources.includes(source as SourceType)) {
       items = items.filter(item => item.source === source);
     }
+  } else {
+    // Exclude Hype and HN Comments from main feed
+    items = items.filter(item => item.source !== 'hype' && item.source !== 'hn-comments');
   }
   
   res.json({
