@@ -19,6 +19,9 @@ interface TelegramPost {
   id: string;
   channel: string;
   text: string;
+  fullText: string;
+  fullTextHtml: string;
+  images: string[];
   date: Date;
   views?: number;
   link: string;
@@ -48,9 +51,67 @@ async function fetchChannelPosts(channel: string): Promise<TelegramPost[]> {
       // Get message ID from data attribute
       const messageId = $el.attr('data-post')?.split('/')[1] || `${i}`;
       
-      // Get text content
+      // Get text content (summary)
       const textEl = $el.find('.tgme_widget_message_text');
       const text = textEl.text().trim();
+      
+      // Get full HTML text (preserves formatting like bold, italic, links, line breaks)
+      let fullTextHtml = textEl.html() || '';
+      
+      // Clean up the HTML - remove script tags and sanitize
+      fullTextHtml = fullTextHtml
+        .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+        .replace(/on\w+="[^"]*"/gi, '') // Remove event handlers
+        .replace(/on\w+='[^']*'/gi, '');
+      
+      // Convert HTML to plain text but preserve line breaks for summary
+      const fullText = textEl.text().trim();
+      
+      // Get images (only from post content, not channel icons/avatars)
+      const images: string[] = [];
+      
+      // Exclude channel icon/avatar images - these are typically in user photo elements
+      const messageContent = $el.find('.tgme_widget_message_bubble');
+      
+      // Find images only within the message content (not in header/user photo areas)
+      messageContent.find('img').each((_, imgEl) => {
+        const $img = $(imgEl);
+        const src = $img.attr('src');
+        
+        // Skip if it's an icon, emoji, or avatar
+        if (src && 
+            !src.includes('telegram.org/img/icon') && 
+            !src.includes('emoji') &&
+            !src.includes('avatar') &&
+            !$img.closest('.tgme_widget_message_user_photo, .tgme_widget_message_author').length) {
+          images.push(src);
+        }
+      });
+      
+      // Check for background images in photo wraps (these are post images)
+      messageContent.find('.tgme_widget_message_photo_wrap, .tgme_widget_message_video_wrap').each((_, wrapEl) => {
+        const $wrap = $(wrapEl);
+        const style = $wrap.attr('style') || '';
+        const bgMatch = style.match(/background-image:\s*url\(['"]?([^'"]+)['"]?\)/);
+        if (bgMatch && !images.includes(bgMatch[1])) {
+          images.push(bgMatch[1]);
+        }
+        
+        // Also check nested img tags
+        const nestedImg = $wrap.find('img').attr('src');
+        if (nestedImg && !images.includes(nestedImg)) {
+          images.push(nestedImg);
+        }
+      });
+      
+      // Check for video thumbnails in message content
+      messageContent.find('video').each((_, videoEl) => {
+        const $video = $(videoEl);
+        const poster = $video.attr('poster');
+        if (poster && !images.includes(poster)) {
+          images.push(poster);
+        }
+      });
       
       // Get date
       const timeEl = $el.find('time');
@@ -70,6 +131,9 @@ async function fetchChannelPosts(channel: string): Promise<TelegramPost[]> {
             id: `${channel}-${messageId}`,
             channel,
             text,
+            fullText,
+            fullTextHtml,
+            images,
             date: postDate,
             views,
             link: `https://t.me/${channel}/${messageId}`,
@@ -102,15 +166,33 @@ function parseViews(viewsStr: string): number | undefined {
 }
 
 function extractTitle(text: string): string {
-  // Try to extract a title from the first line or bold text
-  const firstLine = text.split('\n')[0].trim();
+  // Extract the first complete sentence
+  // Look for sentence endings: . ! ? followed by space or end of string
+  const sentenceMatch = text.match(/^[^.!?]*[.!?](?:\s|$)/);
   
-  // If first line is short enough, use it as title
+  if (sentenceMatch) {
+    const firstSentence = sentenceMatch[0].trim();
+    // If sentence is reasonable length, use it
+    if (firstSentence.length <= 150) {
+      return firstSentence;
+    }
+    // If too long, truncate at word boundary
+    if (firstSentence.length > 150) {
+      const truncated = firstSentence.slice(0, 147);
+      const lastSpace = truncated.lastIndexOf(' ');
+      if (lastSpace > 100) {
+        return truncated.slice(0, lastSpace) + '...';
+      }
+      return truncated + '...';
+    }
+  }
+  
+  // Fallback: use first line if no sentence ending found
+  const firstLine = text.split('\n')[0].trim();
   if (firstLine.length <= 100) {
     return firstLine;
   }
   
-  // Otherwise truncate
   return firstLine.slice(0, 97) + '...';
 }
 
@@ -156,6 +238,9 @@ export async function fetchTelegramChannels(): Promise<NewsItem[]> {
       meta: {
         channel: `@${post.channel}`,
         upvotes: post.views,
+        fullText: post.fullText,
+        fullTextHtml: post.fullTextHtml,
+        images: post.images,
       },
     }));
 }

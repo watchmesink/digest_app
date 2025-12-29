@@ -21,6 +21,9 @@ export interface NewsItem {
     channel?: string;
     domain?: string;
     parentStory?: string;
+    fullText?: string;
+    fullTextHtml?: string;
+    images?: string[];
   };
 }
 
