@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digest — News Aggregator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <a href="/" class="logo">
+        <span class="logo-icon">◈</span>
+        <span class="logo-text">Digest</span>
+      </a>
+      <nav class="nav">
+        <a href="#" class="nav-link active" data-filter="">all</a>
+        <a href="#" class="nav-link" data-filter="hackernews">hackernews</a>
+        <a href="#" class="nav-link" data-filter="showhn">show hn</a>
+        <a href="#" class="nav-link" data-filter="hype">hype</a>
+        <a href="#" class="nav-link" data-filter="producthunt">producthunt</a>
+        <a href="#" class="nav-link" data-filter="telegram">telegram</a>
+        <a href="#" class="nav-link" data-filter="hn-comments">hn comments</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      <div class="meta-bar">
+        <span class="item-count"></span>
+        <span class="last-updated"></span>
+      </div>
+      
+      <div class="feed-loading">
+        <div class="loading-spinner"></div>
+        <span>Loading feed...</span>
+      </div>
+      
+      <ol class="feed-list"></ol>
+      
+      <div class="feed-empty" style="display: none;">
+        <p>No items found for this filter.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Aggregating news from HackerNews, ProductHunt, Telegram, Hype & more</p>
+    </div>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>
+
