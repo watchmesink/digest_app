@@ -4,15 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Digest — News Aggregator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
   <header class="header">
     <div class="header-content">
       <a href="/" class="logo">
+        <span class="logo-icon">◈</span>
         <span class="logo-text">Digest</span>
       </a>
-      <button class="theme-toggle" aria-label="Toggle theme">🌓</button>
       <nav class="nav">
         <a href="#" class="nav-link active" data-filter="">all</a>
         <a href="#" class="nav-link" data-filter="hackernews">hackernews</a>
@@ -22,8 +25,30 @@
         <a href="#" class="nav-link" data-filter="telegram">telegram</a>
         <a href="#" class="nav-link" data-filter="hn-comments">hn comments</a>
       </nav>
+      <button class="settings-btn" id="settingsBtn" title="Settings">⚙</button>
     </div>
   </header>
+  
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Settings</h2>
+        <button class="modal-close" id="closeModal">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="settings-section">
+          <h3>Telegram Channels</h3>
+          <p class="settings-hint">One channel per line (without @)</p>
+          <textarea id="telegramChannels" class="channels-input" rows="12" placeholder="channel_name"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="cancelSettings">Cancel</button>
+        <button class="btn btn-primary" id="saveSettings">Save & Refresh</button>
+      </div>
+    </div>
+  </div>
 
   <main class="main">
     <div class="container">

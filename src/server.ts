@@ -4,12 +4,16 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { refreshFeed, getFeedState } from './aggregator.js';
 import { SourceType } from './types.js';
+import { getTelegramChannels, setTelegramChannels } from './fetchers/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Parse JSON bodies
+app.use(express.json());
 
 // Serve static files
 app.use(express.static(path.join(__dirname, '../public')));
@@ -27,9 +31,6 @@ app.get('/api/feed', (req, res) => {
     if (validSources.includes(source as SourceType)) {
       items = items.filter(item => item.source === source);
     }
-  } else {
-    // Exclude Hype and HN Comments from main feed
-    items = items.filter(item => item.source !== 'hype' && item.source !== 'hn-comments');
   }
   
   res.json({
@@ -54,6 +55,32 @@ app.post('/api/refresh', async (req, res) => {
 // Health check
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', lastUpdated: getFeedState().lastUpdated });
+});
+
+// Get Telegram channels
+app.get('/api/channels/telegram', (req, res) => {
+  try {
+    const channels = getTelegramChannels();
+    res.json({ channels });
+  } catch (error) {
+    res.status(500).json({ error: String(error) });
+  }
+});
+
+// Update Telegram channels
+app.put('/api/channels/telegram', (req, res) => {
+  try {
+    const { channels } = req.body;
+    
+    if (!Array.isArray(channels)) {
+      return res.status(400).json({ error: 'channels must be an array' });
+    }
+    
+    setTelegramChannels(channels);
+    res.json({ success: true, channels: getTelegramChannels() });
+  } catch (error) {
+    res.status(500).json({ error: String(error) });
+  }
 });
 
 // Start server
