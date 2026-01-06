@@ -17,6 +17,7 @@ const closeModalBtn = document.getElementById('closeModal');
 const cancelSettingsBtn = document.getElementById('cancelSettings');
 const saveSettingsBtn = document.getElementById('saveSettings');
 const telegramChannelsInput = document.getElementById('telegramChannels');
+const themeToggle = document.getElementById('themeToggle');
 
 // Fetch feed data
 async function fetchFeed(source = '') {
@@ -207,8 +208,25 @@ async function saveTelegramChannels(channels) {
   }
 }
 
+// Theme management
+function initTheme() {
+  const savedTheme = localStorage.getItem('theme');
+  // Default to light theme
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark-theme');
+    themeToggle.checked = true;
+  }
+}
+
+function toggleTheme() {
+  const isDark = document.body.classList.toggle('dark-theme');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+}
+
 function openSettings() {
   settingsModal.classList.add('active');
+  // Sync theme toggle with current state
+  themeToggle.checked = document.body.classList.contains('dark-theme');
   fetchTelegramChannels().then(channels => {
     telegramChannelsInput.value = channels.join('\n');
   });
@@ -251,6 +269,9 @@ async function saveSettings() {
 
 // Initialize
 async function init() {
+  // Initialize theme (light by default)
+  initTheme();
+  
   // Attach filter handlers
   navLinks.forEach(link => {
     link.addEventListener('click', handleFilterClick);
@@ -261,6 +282,7 @@ async function init() {
   closeModalBtn.addEventListener('click', closeSettings);
   cancelSettingsBtn.addEventListener('click', closeSettings);
   saveSettingsBtn.addEventListener('click', saveSettings);
+  themeToggle.addEventListener('change', toggleTheme);
   
   // Close modal on overlay click
   settingsModal.addEventListener('click', (e) => {
