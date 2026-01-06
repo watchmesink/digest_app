@@ -1,19 +1,20 @@
 :root {
-  --color-primary: #06402B;
-  --color-primary-dark: #042e1e;
-  --color-primary-light: #0a5c3e;
-  --color-accent: #7fffd4;
-  --color-bg: #fafaf8;
-  --color-bg-alt: #f0efe9;
-  --color-text: #1a1a1a;
-  --color-text-muted: #666;
-  --color-text-light: #888;
-  --color-link: #06402B;
-  --color-link-visited: #5a4a3a;
-  --color-border: #e0dfd8;
+  /* ChatGPT-inspired light theme */
+  --color-primary: #10a37f;
+  --color-primary-dark: #0d8a6a;
+  --color-primary-light: #1db994;
+  --color-accent: #10a37f;
+  --color-bg: #ffffff;
+  --color-bg-alt: #f7f7f8;
+  --color-text: #0d0d0d;
+  --color-text-muted: #6e6e80;
+  --color-text-light: #8e8ea0;
+  --color-link: #0d0d0d;
+  --color-link-visited: #6e6e80;
+  --color-border: #e5e5e5;
   
-  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
-  --font-serif: 'Newsreader', Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Söhne Mono', Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   
   --space-xs: 4px;
   --space-sm: 8px;
@@ -21,8 +22,8 @@
   --space-lg: 24px;
   --space-xl: 32px;
   
-  --radius-sm: 3px;
-  --radius-md: 6px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
 }
 
 * {
@@ -37,7 +38,7 @@ html {
 }
 
 body {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   background: var(--color-bg);
   color: var(--color-text);
   line-height: 1.5;
@@ -61,12 +62,12 @@ a:visited {
 
 /* Header */
 .header {
-  background: var(--color-primary);
+  background: var(--color-bg-alt);
+  border-bottom: 1px solid var(--color-border);
   padding: var(--space-sm) var(--space-md);
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .header-content {
@@ -82,25 +83,25 @@ a:visited {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-  color: white;
-  font-family: var(--font-mono);
+  color: var(--color-text);
+  font-family: var(--font-sans);
   font-weight: 600;
   font-size: 1.1rem;
   text-decoration: none;
 }
 
 .logo:visited {
-  color: white;
+  color: var(--color-text);
 }
 
 .logo:hover {
   text-decoration: none;
-  color: var(--color-accent);
+  color: var(--color-primary);
 }
 
 .logo-icon {
   font-size: 1.4rem;
-  color: var(--color-accent);
+  color: var(--color-primary);
 }
 
 .nav {
@@ -110,9 +111,9 @@ a:visited {
 }
 
 .nav-link {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.8);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
   padding: var(--space-xs) var(--space-sm);
   border-radius: var(--radius-sm);
   transition: all 0.15s ease;
@@ -120,18 +121,18 @@ a:visited {
 }
 
 .nav-link:visited {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--color-text-muted);
 }
 
 .nav-link:hover {
-  color: white;
-  background: var(--color-primary-light);
+  color: var(--color-text);
+  background: var(--color-border);
   text-decoration: none;
 }
 
 .nav-link.active {
-  color: var(--color-primary);
-  background: var(--color-accent);
+  color: var(--color-bg);
+  background: var(--color-primary);
   font-weight: 500;
 }
 
@@ -154,8 +155,8 @@ a:visited {
   padding: var(--space-sm) 0;
   border-bottom: 1px solid var(--color-border);
   margin-bottom: var(--space-md);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
   color: var(--color-text-light);
 }
 
@@ -167,8 +168,8 @@ a:visited {
   gap: var(--space-md);
   padding: var(--space-xl);
   color: var(--color-text-muted);
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
 }
 
 .loading-spinner {
@@ -195,7 +196,7 @@ a:visited {
   grid-template-columns: 32px 1fr;
   gap: var(--space-sm);
   padding: var(--space-md) 0;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid var(--color-border);
   counter-increment: item;
   animation: fadeIn 0.3s ease;
 }
@@ -216,7 +217,7 @@ a:visited {
 }
 
 .item-rank {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.85rem;
   color: var(--color-text-light);
   text-align: right;
@@ -247,12 +248,12 @@ a:visited {
 }
 
 .item-title a:hover {
-  color: var(--color-primary);
+  text-decoration: underline;
 }
 
 .item-domain {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
   color: var(--color-text-light);
   margin-left: var(--space-sm);
 }
@@ -269,8 +270,8 @@ a:visited {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-sm);
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
   color: var(--color-text-light);
 }
 
@@ -299,7 +300,7 @@ a:visited {
   text-align: center;
   padding: var(--space-xl);
   color: var(--color-text-muted);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.9rem;
 }
 
@@ -309,8 +310,8 @@ a:visited {
   border-top: 1px solid var(--color-border);
   padding: var(--space-md);
   text-align: center;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
   color: var(--color-text-light);
 }
 
@@ -355,7 +356,7 @@ a:visited {
 .settings-btn {
   background: transparent;
   border: none;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--color-text-muted);
   font-size: 1.2rem;
   cursor: pointer;
   padding: var(--space-xs) var(--space-sm);
@@ -365,8 +366,8 @@ a:visited {
 }
 
 .settings-btn:hover {
-  color: white;
-  background: var(--color-primary-light);
+  color: var(--color-text);
+  background: var(--color-border);
 }
 
 /* Modal */
@@ -421,8 +422,8 @@ a:visited {
 }
 
 .modal-header h2 {
-  font-family: var(--font-mono);
-  font-size: 1rem;
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
   font-weight: 600;
   margin: 0;
 }
@@ -456,16 +457,16 @@ a:visited {
 
 /* Settings Sections */
 .settings-section h3 {
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
   font-weight: 600;
   margin-bottom: var(--space-xs);
   color: var(--color-text);
 }
 
 .settings-hint {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
   color: var(--color-text-light);
   margin-bottom: var(--space-md);
 }
@@ -486,13 +487,13 @@ a:visited {
 .channels-input:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(6, 64, 43, 0.1);
+  box-shadow: 0 0 0 3px rgba(16, 163, 127, 0.15);
 }
 
 /* Buttons */
 .btn {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
   padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-sm);
   border: none;
@@ -519,16 +520,19 @@ a:visited {
   background: var(--color-border);
 }
 
-/* Dark mode (manual toggle) */
+/* Dark mode (manual toggle) - ChatGPT dark style */
 body.dark-theme {
-  --color-bg: #0f0f0f;
-  --color-bg-alt: #1a1a1a;
-  --color-text: #e8e8e8;
-  --color-text-muted: #a0a0a0;
-  --color-text-light: #666;
-  --color-link: #7fffd4;
-  --color-link-visited: #9ecfbe;
-  --color-border: #2a2a2a;
+  --color-bg: #212121;
+  --color-bg-alt: #2f2f2f;
+  --color-text: #ececec;
+  --color-text-muted: #b4b4b4;
+  --color-text-light: #8e8ea0;
+  --color-link: #ececec;
+  --color-link-visited: #b4b4b4;
+  --color-border: #444444;
+  --color-primary: #10a37f;
+  --color-primary-dark: #0d8a6a;
+  --color-primary-light: #1db994;
 }
 
 body.dark-theme .item-title a {
@@ -540,7 +544,11 @@ body.dark-theme .item-title a:visited {
 }
 
 body.dark-theme .item-title a:hover {
-  color: var(--color-accent);
+  color: var(--color-primary);
+}
+
+body.dark-theme .nav-link.active {
+  color: #ffffff;
 }
 
 /* Theme Toggle in Settings */
@@ -552,8 +560,8 @@ body.dark-theme .item-title a:hover {
 }
 
 .theme-toggle-label {
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
   color: var(--color-text);
 }
 
