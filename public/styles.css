@@ -519,29 +519,85 @@ a:visited {
   background: var(--color-border);
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #0f0f0f;
-    --color-bg-alt: #1a1a1a;
-    --color-text: #e8e8e8;
-    --color-text-muted: #a0a0a0;
-    --color-text-light: #666;
-    --color-link: #7fffd4;
-    --color-link-visited: #9ecfbe;
-    --color-border: #2a2a2a;
-  }
-  
-  .item-title a {
-    color: var(--color-text);
-  }
-  
-  .item-title a:visited {
-    color: var(--color-text-muted);
-  }
-  
-  .item-title a:hover {
-    color: var(--color-accent);
-  }
+/* Dark mode (manual toggle) */
+body.dark-theme {
+  --color-bg: #0f0f0f;
+  --color-bg-alt: #1a1a1a;
+  --color-text: #e8e8e8;
+  --color-text-muted: #a0a0a0;
+  --color-text-light: #666;
+  --color-link: #7fffd4;
+  --color-link-visited: #9ecfbe;
+  --color-border: #2a2a2a;
+}
+
+body.dark-theme .item-title a {
+  color: var(--color-text);
+}
+
+body.dark-theme .item-title a:visited {
+  color: var(--color-text-muted);
+}
+
+body.dark-theme .item-title a:hover {
+  color: var(--color-accent);
+}
+
+/* Theme Toggle in Settings */
+.theme-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) 0;
+}
+
+.theme-toggle-label {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-text);
+}
+
+.theme-switch {
+  position: relative;
+  width: 48px;
+  height: 26px;
+}
+
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.theme-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-border);
+  transition: 0.3s;
+  border-radius: 26px;
+}
+
+.theme-slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+.theme-switch input:checked + .theme-slider {
+  background-color: var(--color-primary);
+}
+
+.theme-switch input:checked + .theme-slider:before {
+  transform: translateX(22px);
 }
 
