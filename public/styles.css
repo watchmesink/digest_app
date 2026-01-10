@@ -609,3 +609,224 @@ body.dark-theme .nav-link.active {
   transform: translateX(22px);
 }
 
+/* Telegram Full Text Content */
+.item-full-text {
+  font-size: 0.95rem;
+  color: var(--color-text);
+  line-height: 1.65;
+  margin-bottom: var(--space-sm);
+  max-width: 700px;
+}
+
+.item-full-text.telegram-content {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.item-full-text.telegram-content a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.item-full-text.telegram-content a:hover {
+  color: var(--color-primary-dark);
+}
+
+.item-full-text.telegram-content b,
+.item-full-text.telegram-content strong {
+  font-weight: 600;
+}
+
+.item-full-text.telegram-content i,
+.item-full-text.telegram-content em {
+  font-style: italic;
+}
+
+.item-full-text.telegram-content code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--color-bg-alt);
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+
+.item-full-text.telegram-content pre {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--color-bg-alt);
+  padding: var(--space-sm);
+  border-radius: var(--radius-sm);
+  overflow-x: auto;
+  margin: var(--space-sm) 0;
+}
+
+/* Image Tiles */
+.item-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin: var(--space-md) 0;
+}
+
+.image-tile {
+  width: 100px;
+  height: 100px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  border: 1px solid var(--color-border);
+}
+
+.image-tile:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.image-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Image Gallery Overlay */
+.gallery-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.92);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+  backdrop-filter: blur(8px);
+}
+
+.gallery-overlay.active {
+  display: flex;
+}
+
+.gallery-content {
+  max-width: 90vw;
+  max-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-content img {
+  max-width: 100%;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+  animation: galleryFadeIn 0.2s ease;
+}
+
+@keyframes galleryFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.gallery-close {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+  line-height: 1;
+}
+
+.gallery-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.gallery-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  font-size: 2.5rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+  line-height: 1;
+}
+
+.gallery-nav:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.gallery-prev {
+  left: var(--space-md);
+}
+
+.gallery-next {
+  right: var(--space-md);
+}
+
+.gallery-counter {
+  position: absolute;
+  bottom: var(--space-lg);
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.8);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  background: rgba(0, 0, 0, 0.5);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-md);
+}
+
+/* Responsive adjustments for images and gallery */
+@media (max-width: 600px) {
+  .image-tile {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .gallery-nav {
+    width: 44px;
+    height: 44px;
+    font-size: 2rem;
+  }
+  
+  .gallery-close {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+  
+  .gallery-prev {
+    left: var(--space-xs);
+  }
+  
+  .gallery-next {
+    right: var(--space-xs);
+  }
+}
+

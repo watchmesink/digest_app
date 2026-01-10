@@ -109,8 +109,30 @@ function createFeedItem(item, index) {
   li.className = 'feed-item';
   li.style.animationDelay = `${index * 30}ms`;
   
-  // Hide title for telegram posts
-  const showTitle = item.source !== 'telegram';
+  // For Telegram posts: show full content and images
+  const isTelegram = item.source === 'telegram';
+  const showTitle = !isTelegram;
+  
+  // Get content HTML for Telegram (full content) or summary for others
+  let contentHtml = '';
+  if (isTelegram) {
+    // Use full HTML content for Telegram posts, sanitized
+    const fullContent = item.meta.fullTextHtml || item.meta.fullText || item.summary;
+    contentHtml = `<div class="item-full-text telegram-content">${fullContent}</div>`;
+  } else if (item.summary !== item.title || !showTitle) {
+    contentHtml = `<p class="item-summary">${escapeHtml(item.summary)}</p>`;
+  }
+  
+  // Build images HTML for Telegram posts
+  let imagesHtml = '';
+  if (isTelegram && item.meta.images && item.meta.images.length > 0) {
+    const imageItems = item.meta.images.map((img, imgIndex) => 
+      `<div class="image-tile" data-images='${JSON.stringify(item.meta.images)}' data-index="${imgIndex}">
+        <img src="${img}" alt="Post image" loading="lazy">
+      </div>`
+    ).join('');
+    imagesHtml = `<div class="item-images">${imageItems}</div>`;
+  }
   
   li.innerHTML = `
     <div class="item-rank"></div>
@@ -119,12 +141,24 @@ function createFeedItem(item, index) {
         <a href="${item.url || '#'}" target="_blank" rel="noopener">${escapeHtml(item.title)}</a>
         ${domainHtml}
       </h3>` : ''}
-      ${item.summary !== item.title || !showTitle ? `<p class="item-summary">${escapeHtml(item.summary)}</p>` : ''}
+      ${contentHtml}
+      ${imagesHtml}
       <div class="item-meta">
         ${metaParts.join('')}
       </div>
     </div>
   `;
+  
+  // Attach click handlers for image tiles
+  if (isTelegram && item.meta.images && item.meta.images.length > 0) {
+    li.querySelectorAll('.image-tile').forEach(tile => {
+      tile.addEventListener('click', () => {
+        const images = JSON.parse(tile.dataset.images);
+        const startIndex = parseInt(tile.dataset.index, 10);
+        openGallery(images, startIndex);
+      });
+    });
+  }
   
   return li;
 }
@@ -272,6 +306,9 @@ async function init() {
   // Initialize theme (light by default)
   initTheme();
   
+  // Initialize gallery
+  initGallery();
+  
   // Attach filter handlers
   navLinks.forEach(link => {
     link.addEventListener('click', handleFilterClick);
@@ -291,7 +328,7 @@ async function init() {
     }
   });
   
-  // Close modal on Escape key
+  // Close modal on Escape key (handled by gallery for its own state)
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && settingsModal.classList.contains('active')) {
       closeSettings();
@@ -310,6 +347,76 @@ async function init() {
       renderFeed(data);
     }
   }, 5 * 60 * 1000);
+}
+
+// Image Gallery
+let galleryImages = [];
+let galleryIndex = 0;
+
+function openGallery(images, startIndex = 0) {
+  galleryImages = images;
+  galleryIndex = startIndex;
+  
+  const gallery = document.getElementById('imageGallery');
+  const galleryImage = document.getElementById('galleryImage');
+  const galleryCounter = document.getElementById('galleryCounter');
+  
+  galleryImage.src = galleryImages[galleryIndex];
+  galleryCounter.textContent = `${galleryIndex + 1} / ${galleryImages.length}`;
+  
+  // Show/hide navigation arrows based on image count
+  document.getElementById('galleryPrev').style.display = galleryImages.length > 1 ? 'flex' : 'none';
+  document.getElementById('galleryNext').style.display = galleryImages.length > 1 ? 'flex' : 'none';
+  
+  gallery.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeGallery() {
+  const gallery = document.getElementById('imageGallery');
+  gallery.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function navigateGallery(direction) {
+  galleryIndex += direction;
+  
+  // Wrap around
+  if (galleryIndex < 0) galleryIndex = galleryImages.length - 1;
+  if (galleryIndex >= galleryImages.length) galleryIndex = 0;
+  
+  const galleryImage = document.getElementById('galleryImage');
+  const galleryCounter = document.getElementById('galleryCounter');
+  
+  galleryImage.src = galleryImages[galleryIndex];
+  galleryCounter.textContent = `${galleryIndex + 1} / ${galleryImages.length}`;
+}
+
+function initGallery() {
+  const gallery = document.getElementById('imageGallery');
+  const closeBtn = document.getElementById('galleryClose');
+  const prevBtn = document.getElementById('galleryPrev');
+  const nextBtn = document.getElementById('galleryNext');
+  
+  closeBtn.addEventListener('click', closeGallery);
+  prevBtn.addEventListener('click', () => navigateGallery(-1));
+  nextBtn.addEventListener('click', () => navigateGallery(1));
+  
+  // Close on overlay click
+  gallery.addEventListener('click', (e) => {
+    if (e.target === gallery || e.target.classList.contains('gallery-overlay')) {
+      closeGallery();
+    }
+  });
+  
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (!gallery.classList.contains('active')) return;
+    
+    if (e.key === 'Escape') closeGallery();
+    if (e.key === 'ArrowLeft') navigateGallery(-1);
+    if (e.key === 'ArrowRight') navigateGallery(1);
+  });
 }
 
 // Start
