@@ -10,6 +10,7 @@ A unified news feed aggregating content from multiple sources into a clean, Hack
 - **Show HN** — Top 10 most upvoted Show HN posts (last 24h)
 - **Product Hunt** — Top 10 products of the day
 - **Hype** — Top news from hype.replicate.dev
+- **Substack** — Latest posts from configured Substack feeds (last 24h)
 - **Telegram Channels** — Posts from selected Russian tech/ML channels
 - **HN Best Comments** — Quality comments from HackerNews discussions
 
@@ -71,6 +72,7 @@ The app will be available at `http://localhost:3000`
 - `telegram`
 - `hype`
 - `hn-comments`
+- `substack`
 
 ## Deployment on Railway
 
@@ -86,6 +88,7 @@ The app includes `railway.json` configuration for optimal deployment.
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `PORT` | Server port | `3000` |
+| `SUBSTACK_FEEDS` | Comma or newline separated Substack URLs (newsletter or feed URLs) | `https://www.lennysnewsletter.com/feed` |
 
 ## Architecture
 
