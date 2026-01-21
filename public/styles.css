@@ -294,6 +294,7 @@ a:visited {
 .meta-source.source-telegram { color: #0088cc; }
 .meta-source.source-hype { color: #7c3aed; }
 .meta-source.source-hn-comments { color: #ff6600; }
+.meta-source.source-substack { color: #ff6600; }
 
 /* Empty State */
 .feed-empty {

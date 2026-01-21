@@ -4,7 +4,8 @@ export type SourceType =
   | 'producthunt' 
   | 'telegram' 
   | 'hype' 
-  | 'hn-comments';
+  | 'hn-comments'
+  | 'substack';
 
 export interface NewsItem {
   id: string;
