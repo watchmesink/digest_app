@@ -4,13 +4,15 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { refreshFeed, getFeedState } from './aggregator.js';
 import { SourceType } from './types.js';
-import { getTelegramChannels, setTelegramChannels } from './fetchers/index.js';
+import { getTelegramChannels, setTelegramChannels, fetchers } from './fetchers/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+const validSources = fetchers.map(f => f.source);
 
 // Parse JSON bodies
 app.use(express.json());
@@ -27,7 +29,6 @@ app.get('/api/feed', (req, res) => {
   
   // Filter by source if specified
   if (source && typeof source === 'string') {
-    const validSources: SourceType[] = ['hackernews', 'showhn', 'producthunt', 'telegram', 'hype', 'hn-comments'];
     if (validSources.includes(source as SourceType)) {
       items = items.filter(item => item.source === source);
     }

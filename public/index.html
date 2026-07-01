@@ -3,27 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digest — News Aggregator</title>
+  <title>Digest — Stories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&family=Source+Serif+4:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
   <header class="header">
     <div class="header-content">
       <a href="/" class="logo">
-        <span class="logo-icon">◈</span>
         <span class="logo-text">Digest</span>
       </a>
       <nav class="nav">
-        <a href="#" class="nav-link active" data-filter="">all</a>
-        <a href="#" class="nav-link" data-filter="hackernews">hackernews</a>
-        <a href="#" class="nav-link" data-filter="showhn">show hn</a>
-        <a href="#" class="nav-link" data-filter="hype">hype</a>
-        <a href="#" class="nav-link" data-filter="producthunt">producthunt</a>
-        <a href="#" class="nav-link" data-filter="substack">substack</a>
-        <a href="#" class="nav-link" data-filter="telegram">telegram</a>
-        <a href="#" class="nav-link" data-filter="hn-comments">hn comments</a>
+        <a href="#" class="nav-link active" data-filter="">For you</a>
+        <a href="#" class="nav-link" data-filter="hackernews">Hacker News</a>
+        <a href="#" class="nav-link" data-filter="showhn">Show HN</a>
+        <a href="#" class="nav-link" data-filter="hype">Hype</a>
+        <a href="#" class="nav-link" data-filter="producthunt">Product Hunt</a>
+        <a href="#" class="nav-link" data-filter="substack">Substack</a>
+        <a href="#" class="nav-link" data-filter="telegram">Telegram</a>
+        <a href="#" class="nav-link" data-filter="hn-comments">HN Comments</a>
       </nav>
-      <button class="settings-btn" id="settingsBtn" title="Settings">⚙</button>
+      <button class="settings-btn" id="settingsBtn" title="Preferences">
+        <span class="settings-label">Preferences</span>
+      </button>
     </div>
   </header>
   
@@ -31,14 +35,14 @@
   <div class="modal-overlay" id="settingsModal">
     <div class="modal">
       <div class="modal-header">
-        <h2>Settings</h2>
-        <button class="modal-close" id="closeModal">×</button>
+        <h2>Preferences</h2>
+        <button class="modal-close" id="closeModal">x</button>
       </div>
       <div class="modal-body">
         <div class="settings-section">
-          <h3>Appearance</h3>
+          <h3>Reading mode</h3>
           <div class="theme-toggle-row">
-            <span class="theme-toggle-label">Dark Mode</span>
+            <span class="theme-toggle-label">Night mode</span>
             <label class="theme-switch">
               <input type="checkbox" id="themeToggle">
               <span class="theme-slider"></span>
@@ -47,56 +51,63 @@
         </div>
         
         <div class="settings-section" style="margin-top: var(--space-lg);">
-          <h3>Telegram Channels</h3>
-          <p class="settings-hint">One channel per line (without @)</p>
+          <h3>Telegram sources</h3>
+          <p class="settings-hint">One channel per line, omit @.</p>
           <textarea id="telegramChannels" class="channels-input" rows="12" placeholder="channel_name"></textarea>
         </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" id="cancelSettings">Cancel</button>
-        <button class="btn btn-primary" id="saveSettings">Save & Refresh</button>
+        <button class="btn btn-primary" id="saveSettings">Save and refresh</button>
       </div>
     </div>
   </div>
 
   <main class="main">
     <div class="container">
-      <div class="meta-bar">
-        <span class="item-count"></span>
-        <span class="last-updated"></span>
-      </div>
-      
-      <div class="feed-loading">
-        <div class="loading-spinner"></div>
-        <span>Loading feed...</span>
-      </div>
-      
-      <ol class="feed-list"></ol>
-      
-      <div class="feed-empty" style="display: none;">
-        <p>No items found for this filter.</p>
+      <section class="masthead">
+        <p class="eyebrow">Your daily digest</p>
+        <h1>Stories worth your time.</h1>
+        <p class="lead">A calm reading queue from Hacker News, Substack, Product Hunt, Telegram, and more.</p>
+      </section>
+
+      <div class="feed-shell">
+        <div class="meta-bar">
+          <span class="item-count"></span>
+          <span class="last-updated"></span>
+        </div>
+        
+        <div class="feed-loading">
+          <div class="loading-spinner"></div>
+          <span>Loading stories...</span>
+        </div>
+        
+        <ol class="feed-list"></ol>
+        
+        <div class="feed-empty" style="display: none;">
+          <p>No stories in this view yet.</p>
+        </div>
       </div>
     </div>
   </main>
 
   <!-- Image Gallery Modal -->
   <div class="gallery-overlay" id="imageGallery">
-    <button class="gallery-close" id="galleryClose">×</button>
-    <button class="gallery-nav gallery-prev" id="galleryPrev">‹</button>
+    <button class="gallery-close" id="galleryClose">x</button>
+    <button class="gallery-nav gallery-prev" id="galleryPrev">&lt;</button>
     <div class="gallery-content">
       <img src="" alt="Gallery image" id="galleryImage">
     </div>
-    <button class="gallery-nav gallery-next" id="galleryNext">›</button>
+    <button class="gallery-nav gallery-next" id="galleryNext">&gt;</button>
     <div class="gallery-counter" id="galleryCounter"></div>
   </div>
 
   <footer class="footer">
     <div class="container">
-      <p>Aggregating news from HackerNews, Substack, ProductHunt, Telegram, Hype & more</p>
+      <p>Quietly assembling stories from Hacker News, Substack, Product Hunt, Telegram, and more.</p>
     </div>
   </footer>
 
   <script src="/app.js"></script>
 </body>
 </html>
-
