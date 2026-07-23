@@ -34,14 +34,14 @@ export function getSubstackFeeds(): string[] {
   return feeds.length > 0 ? feeds : DEFAULT_SUBSTACK_FEEDS;
 }
 
-function parseAuthor($el: cheerio.Cheerio<cheerio.Element>): string | undefined {
+function parseAuthor($el: cheerio.Cheerio<any>): string | undefined {
   const dcCreator = $el.find('dc\\:creator').text().trim();
   if (dcCreator) return dcCreator;
   const author = $el.find('author').text().trim();
   return author || undefined;
 }
 
-function parseDescription($el: cheerio.Cheerio<cheerio.Element>): string {
+function parseDescription($el: cheerio.Cheerio<any>): string {
   const content = $el.find('content\\:encoded').text().trim();
   if (content) return content;
   return $el.find('description').text().trim();
